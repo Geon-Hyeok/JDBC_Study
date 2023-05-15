@@ -55,7 +55,7 @@ public class SqlMinusApp {
 						System.out.println("============================");
 					}
 				} else {
-					int rows = stmt.executeUpdate(sql);
+					int rows = stmt.getUpdateCount();
 					System.out.println("총 " + rows + "개의 행이 변경되었습니다");
 					continue;
 				}
