@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 // 키보드로 SQL 명령을 입력받아 DBMS 서버에 전달하여 실행하고 실행결과를 출력하는 JDBC 프로그램 작성
@@ -37,6 +39,31 @@ public class SqlMinusApp {
 				break;
 
 			// 입력받은 SQL 명령을 전달하여 실행하고 실행결과를 반환받아 출력
+			boolean result = stmt.execute(sql);
+			try {
+				if (result) {
+					rs = stmt.executeQuery(sql);
+					ResultSetMetaData rsmd = rs.getMetaData();
+					int columnCount = rsmd.getColumnCount();
+					while (rs.next()) {
+						for (int i = 1; i <= columnCount; i++) {
+							String columnLabel = rsmd.getColumnLabel(i);
+							String value = rs.getString(i);
+							System.out.println(columnLabel + " = " + value);
+
+						}
+						System.out.println("============================");
+					}
+				} else {
+					int rows = stmt.executeUpdate(sql);
+					System.out.println("총 " + rows + "개의 행이 변경되었습니다");
+					continue;
+				}
+
+			} catch (SQLException e) {
+				System.out.println("[에러] JDBC 관련 오류 = " + e.getMessage());
+				continue;
+			}
 		}
 		ConnectionFactory.close(con, stmt, rs);
 		System.out.println("SQLMinus 프로그램을 종료합니다");
