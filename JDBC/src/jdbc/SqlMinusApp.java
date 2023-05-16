@@ -6,7 +6,10 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+<<<<<<< HEAD
 import java.sql.SQLSyntaxErrorException;
+=======
+>>>>>>> branch 'main' of https://github.com/Geon-Hyeok/JDBC_Study.git
 import java.sql.Statement;
 
 // 키보드로 SQL 명령을 입력받아 DBMS 서버에 전달하여 실행하고 실행결과를 출력하는 JDBC 프로그램 작성
@@ -40,6 +43,7 @@ public class SqlMinusApp {
 				break;
 
 			// 입력받은 SQL 명령을 전달하여 실행하고 실행결과를 반환받아 출력
+<<<<<<< HEAD
 			try {
 				// 입력받은 SQL 명령을 전달하여 실행하고 실행결과를 반환받아 출력
 				if (stmt.execute(sql)) {// 전달되어 실행된 SQL 명령이 SELECT 명령인 경우
@@ -83,6 +87,32 @@ public class SqlMinusApp {
 				}
 			} catch (SQLException e) {// 전달되어 실행된 SQL 명령이 잘못된 경우 SQLException 발생
 				System.out.println("SQL 오류 = " + e.getMessage());
+=======
+			boolean result = stmt.execute(sql);
+			try {
+				if (result) {
+					rs = stmt.executeQuery(sql);
+					ResultSetMetaData rsmd = rs.getMetaData();
+					int columnCount = rsmd.getColumnCount();
+					while (rs.next()) {
+						for (int i = 1; i <= columnCount; i++) {
+							String columnLabel = rsmd.getColumnLabel(i);
+							String value = rs.getString(i);
+							System.out.println(columnLabel + " = " + value);
+
+						}
+						System.out.println("============================");
+					}
+				} else {
+					int rows = stmt.getUpdateCount();
+					System.out.println("총 " + rows + "개의 행이 변경되었습니다");
+					continue;
+				}
+
+			} catch (SQLException e) {
+				System.out.println("[에러] JDBC 관련 오류 = " + e.getMessage());
+				continue;
+>>>>>>> branch 'main' of https://github.com/Geon-Hyeok/JDBC_Study.git
 			}
 		}
 
