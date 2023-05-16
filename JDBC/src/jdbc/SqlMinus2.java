@@ -14,7 +14,7 @@ import java.sql.Statement;
 // => SQL 명령은 [exit] 명령을 입력하기 전까지 반복적으로 입력받아 실행 - 대소문자 구분 X
 // => 입력받은 SQL 명령이 잘못된 경우 에러 메세지 출력
 
-public class SqlMinusApp {
+public class SqlMinus2 {
 	public static void main(String[] args) throws Exception {
 		// 키보드로 SQL 명령을 입력받기 위한 입력스트림 생성
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -40,53 +40,33 @@ public class SqlMinusApp {
 				break;
 
 			// 입력받은 SQL 명령을 전달하여 실행하고 실행결과를 반환받아 출력
+			boolean result = stmt.execute(sql);
 			try {
-				// 입력받은 SQL 명령을 전달하여 실행하고 실행결과를 반환받아 출력
-				if (stmt.execute(sql)) {// 전달되어 실행된 SQL 명령이 SELECT 명령인 경우
+				if (result) {
 					rs = stmt.getResultSet();
-
-					if (rs.next()) {// 검색행이 있는 경우
-						ResultSetMetaData rsmd = rs.getMetaData();
-
-						// 검색행의 컬럼의 갯수를 반환받아 저장
-						int columnCount = rsmd.getColumnCount();
-
-						System.out.println("===============================================");
-						// 검색행의 컬럼명을 반환받아 출력
+					ResultSetMetaData rsmd = rs.getMetaData();
+					int columnCount = rsmd.getColumnCount();
+					while (rs.next()) {
 						for (int i = 1; i <= columnCount; i++) {
-							System.out.print(rsmd.getColumnLabel(i) + "\t");
+							String columnLabel = rsmd.getColumnLabel(i);
+							String value = rs.getString(i);
+							System.out.println(columnLabel + " = " + value);
+
 						}
-						System.out.println();
-						System.out.println("===============================================");
-						do {
-							for (int i = 1; i <= columnCount; i++) {
-								String columnValue = rs.getString(i);
-								// 컬럼의 자료형이 DATE인 경우
-								if (rsmd.getColumnTypeName(i).equals("DATE")) {
-									// [yyyy-MM-dd] 형식의 문자열로 분리하여 저장
-									columnValue = columnValue.substring(0, 10);
-								}
-								if (columnValue == null) {// 컬럼값이 없는 경우
-									columnValue = "";
-								}
-								System.out.print(columnValue + "\t");
-							}
-							System.out.println();
-						} while (rs.next());
-
-					} else {// 검색행이 없는 경우
-						System.out.println("검색된 결과가 없습니다.");
+						System.out.println("============================");
 					}
-				} else {// 전달되어 실행된 SQL 명령이 INSERT,UPDATE,DELETE 명령인 경우
+				} else {
 					int rows = stmt.getUpdateCount();
-					System.out.println(rows + "개의 행을 " + sql.substring(0, 6).toUpperCase() + " 하였습니다.");
+					System.out.println("총 " + rows + "개의 행이 변경되었습니다");
+					continue;
 				}
-			} catch (SQLException e) {// 전달되어 실행된 SQL 명령이 잘못된 경우 SQLException 발생
-				System.out.println("SQL 오류 = " + e.getMessage());
-			}
-		}
 
-		ConnectionFactory.close(con, stmt, rs);
-		System.out.println("SQLMinus 프로그램을 종료합니다.");
+			} catch (SQLException e) {
+				System.out.println("[에러] JDBC 관련 오류 = " + e.getMessage());
+
+			}
+			ConnectionFactory.close(con, stmt, rs);
+			System.out.println("SQLMinus 프로그램을 종료합니다");
+		}
 	}
 }
