@@ -76,4 +76,10 @@ public class StudentDTO {
 		this.birthday = birthday;
 	}
 
+	@Override
+	public String toString() {
+		return "StudentDTO [no=" + no + ", name=" + name + ", phone=" + phone + ", address=" + address + ", birthday="
+				+ birthday + "]";
+	}
+
 }
