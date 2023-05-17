@@ -78,8 +78,7 @@ public class StudentDTO {
 
 	@Override
 	public String toString() {
-		return "StudentDTO [no=" + no + ", name=" + name + ", phone=" + phone + ", address=" + address + ", birthday="
-				+ birthday + "]";
+		return no + "\t" + name + "\t" + phone + "\t" + address + "\t" + birthday;
 	}
 
 }
