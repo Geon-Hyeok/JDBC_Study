@@ -65,4 +65,8 @@ public class SubItemDTO {
 				+ "상위 아이템 : " + mainitem + '\n' + '\n' + "사용하는 챔피언 : " + champion;
 	}
 
+	public String getImageName() {
+		return name;
+	}
+
 }

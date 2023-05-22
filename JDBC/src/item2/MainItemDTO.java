@@ -63,8 +63,12 @@ public class MainItemDTO {
 
 	@Override
 	public String toString() {
-		return "아이템 이름 : " + name + '\n'  + '\n'+ "가격 : " + price + '\n' + '\n' + "효과 : " + performance + '\n' + '\n' + "재료 : " + material + '\n' + '\n'
-				+ "사용하는 챔피언 : " + champion;
+		return "아이템 이름 : " + name + '\n' + '\n' + "가격 : " + price + '\n' + '\n' + "효과 : " + performance + '\n' + '\n'
+				+ "재료 : " + material + '\n' + '\n' + "사용하는 챔피언 : " + champion;
 
+	}
+
+	public String getImageName() {
+		return name;
 	}
 }

@@ -57,13 +57,13 @@ public class ItemDAOImpl extends JdbcDAO implements MainItemDAO, SubItemDAO {
 		try {
 			con = getConnection();
 
-			String sql = "update main set name=?,price=?,performance=?,material=?,champion=?";
+			String sql = "update main set price=?,performance=?,material=?,champion=? where name =?";
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, mainItem.getName());
-			pstmt.setInt(2, mainItem.getPrice());
-			pstmt.setString(3, mainItem.getPerformance());
-			pstmt.setString(4, mainItem.getMaterial());
-			pstmt.setString(5, mainItem.getChampion());
+			pstmt.setInt(1, mainItem.getPrice());
+			pstmt.setString(2, mainItem.getPerformance());
+			pstmt.setString(3, mainItem.getMaterial());
+			pstmt.setString(4, mainItem.getChampion());
+			pstmt.setString(5, mainItem.getName());
 
 			rows = pstmt.executeUpdate();
 
@@ -287,13 +287,13 @@ public class ItemDAOImpl extends JdbcDAO implements MainItemDAO, SubItemDAO {
 		int rows = 0;
 		try {
 			con = getConnection();
-			String sql = "update sub set name=?,price=?,performance=?,mainitem=?,champion=?";
+			String sql = "update sub set price=?,performance=?,mainitem=?,champion=? where name = ?";
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, sub.getName());
-			pstmt.setInt(2, sub.getPrice());
-			pstmt.setString(3, sub.getPerformance());
-			pstmt.setString(4, sub.getMainitem());
-			pstmt.setString(5, sub.getChampion());
+			pstmt.setInt(1, sub.getPrice());
+			pstmt.setString(2, sub.getPerformance());
+			pstmt.setString(3, sub.getMainitem());
+			pstmt.setString(4, sub.getChampion());
+			pstmt.setString(5, sub.getName());
 
 			rows = pstmt.executeUpdate();
 
